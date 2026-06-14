@@ -1,12 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional
 
-
-class TaskCreate(BaseModel):
+class CreateTask(BaseModel):
 	name: str
-	description: str | None = None
+	description: Optional[str] = None
 
 class Task(BaseModel):
 	id: int
 	name: str
-	description: str | None = None
+	description: Optional[str] = None 
 	is_complete: bool = False
