@@ -38,3 +38,14 @@ async def delete_task(task_id: int):
 		detail = "Task not found"
 	)
 
+@task_router.patch("/tasks/{task_id}",response_model=Task)
+async def update_task(task_id: int):
+	for task in tasks:
+		if task.id == task_id:
+			task.is_complete = not task.is_complete
+			return task
+
+	raise HTTPException(
+		status_code = 404,
+		detail = "Task not found")
+
