@@ -1,4 +1,4 @@
-from fastapi import APIRouter 
+from fastapi import APIRouter,HTTPException 
 from schemas.task import CreateTask, Task
 
 task_router = APIRouter()
@@ -27,6 +27,14 @@ async def add_task(task: CreateTask):
 	return new_task
 
 @task_router.delete("/tasks/{task_id}")
-async def delete_task():
-	return {"Message" : "Delete a task"}
+async def delete_task(task_id: int):
+	for task in tasks:
+		if task.id == task_id:
+			tasks.remove(task)
+			return {"Message" : "Task deleted"}
+
+	raise HTTPException(
+		status_code = 404,
+		detail = "Task not found"
+	)
 
