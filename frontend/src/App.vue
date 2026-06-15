@@ -5,6 +5,7 @@ const tasks = ref([])
 
 const name = ref('')
 const description = ref('')
+const id = ref(0)
 
 async function getTasks(){
   console.log("Getting Tasks from backend")
@@ -50,11 +51,28 @@ async function addTask(){
 
   }catch(error){
     console.error(error.message)
-  }
-  
+  } 
 }
 
-async function deleteTask(){}
+async function deleteTask(id){
+  try{
+    const response = await fetch(`http://127.0.0.1:8000/tasks/${id}`,{
+      method: "DELETE"
+    })
+
+    if(!response.ok){
+      throw new Error(`Status:${response.status}`)
+    }
+
+    tasks.value = tasks.value.filter(
+      task => task.id !== id
+    )
+
+    console.log("Task was deleted")
+  }catch(error){
+    console.error(error.message)
+  }
+}
 
 onMounted(()=>{
   getTasks()
@@ -73,6 +91,7 @@ onMounted(()=>{
   <div v-for="task in tasks" :key="task.id">
     <h4>{{task.name}}</h4>
     <p>{{task.description}}</p>
+    <button @click="deleteTask(task.id)">Delete Task</button>
   </div>
 </template>
 
