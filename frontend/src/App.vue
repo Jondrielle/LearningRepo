@@ -114,20 +114,55 @@ onMounted(()=>{
 <template>
   <h1>TODO List</h1>
 
-  <input v-model="name" placeholder="Task name"/>
-  <input v-model="description" placeholder="Task Description"/>
+  <input v-model="name" placeholder="Task name" class="input"/>
+  <input v-model="description" placeholder="Task Description" class="input"/>
 
   <button @click="addTask">Add Task</button>
   
   <h3>-------Tasks-------</h3>
-  <div v-for="task in tasks" :key="task.id">
-    <h4>{{task.name}}</h4>
-    <p>{{task.description}}</p>
+  <div class="taskCard">
+    <div v-for="task in tasks" :key="task.id" class="task">
+      <div class="contents">
+        <h4>{{task.name}}</h4>
+        <p>{{task.description}}</p>
 
-    <div>Completed?</div>
-    <button @click="updateTask(task.id,!task.is_complete)">Is complete: {{task.is_complete}}</button>
-    <button @click="deleteTask(task.id)">Delete Task</button>
-
+        <div>Completed?</div>
+        <button @click="updateTask(task.id,!task.is_complete)" class="button">Is complete: {{task.is_complete}}</button>
+        <button @click="deleteTask(task.id)"class="button">Delete Task</button>
+      </div>
+    </div>
   </div>
 </template>
 
+<style scoped>
+  .input {
+  margin-right: 8px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.button {
+  margin-right: 6px;
+}
+
+.taskCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  gap: 10px;
+}
+
+.task {
+  width: 300px;
+  border: 1px solid gray;
+  border-radius: 8px;
+}
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+}
+</style>
